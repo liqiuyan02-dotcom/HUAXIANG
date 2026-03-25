@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育智库 - 2026春季全阶段学生数字化画像系统</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <!-- API Key 顶栏 -->
+    <div class="top-nav">
+        <i class="fas fa-robot"></i>
+        <strong>数字化画像终端:</strong>
+        <input type="password" id="api_key" placeholder="填入 Zhipu AI API Key 激活多路径数据模型">
+        <button class="btn-small btn-gray" onclick="saveApiKey()">保存</button>
+    </div>
+
+    <!-- ==================== 页面1: 首页/名册中心 ==================== -->
+    <div id="page1" class="page active">
+        <div class="hero">
+            <h1><i class="fas fa-microchip"></i> 2026春季全阶段学生画像系统</h1>
+            <p>智能识别 11 大课程路径 • 100+ 饱和观察维度 • AI 智能生成画像</p>
+        </div>
+
+        <!-- 统计概览 -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number" id="stat-total">0</span>
+                <span class="stat-label">总学生数</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="stat-completed">0</span>
+                <span class="stat-label">已完成问卷</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="stat-portraits">0</span>
+                <span class="stat-label">已生成画像</span>
+            </div>
+        </div>
+
+        <!-- 快捷入口 -->
+        <div class="grid-2">
+            <button class="btn-large btn-info" onclick="showPage(5)">
+                <i class="fas fa-archive"></i>
+                <span>档案文库 / 全员数据汇总</span>
+            </button>
+            <button class="btn-large btn-success" onclick="showPage(2)">
+                <i class="fas fa-user-edit"></i>
+                <span>开启新画像或回溯编辑</span>
+            </button>
+        </div>
+
+        <!-- 学生导入 -->
+        <div class="section">
+            <h3><i class="fas fa-file-import"></i> 智能名单入库 (自动匹配路径)</h3>
+            <div class="import-format">
+                <p>📋 导入格式：<code>姓名,性别,班级,上课时间</code></p>
+                <p>💡 示例：李华,男,L1-意识世界-周六,周六上午9:00</p>
+            </div>
+            <textarea id="batchInput" rows="4" placeholder="粘贴学生名单，每行一个学生..."></textarea>
+
+            <!-- 编辑表单 -->
+            <div id="editForm" class="edit-form" style="display:none;">
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" id="editName" placeholder="学生姓名">
+                </div>
+                <div class="form-group">
+                    <label>性别</label>
+                    <select id="editSex">
+                        <option value="">请选择</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>班级</label>
+                    <input type="text" id="editClass" placeholder="如：L1-意识世界-周六">
+                </div>
+                <div class="form-group">
+                    <label>时间</label>
+                    <input type="text" id="editTime" placeholder="如：周六上午9:00">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-primary" id="mainEntryBtn" onclick="handleMainAction()">
+                    <i class="fas fa-magic"></i> 同步到本地数据库
+                </button>
+                <button class="btn-gray" id="cancelEditBtn" style="display:none;" onclick="cancelEdit()">取消修改</button>
+                <button class="btn-gray" onclick="exportBackup()">
+                    <i class="fas fa-download"></i> 备份全库
+                </button>
+                <button class="btn-gray" onclick="document.getElementById('importFile').click()">
+                    <i class="fas fa-upload"></i> 还原数据
+                </button>
+                <input type="file" id="importFile" style="display:none" accept=".json" onchange="importBackup(this)">
+            </div>
+
+            <!-- 学生列表表格 -->
+            <div class="table-container">
+                <table id="stuTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>班级</th>
+                            <th>智能识别路径</th>
+                            <th>上课时间</th>
+                            <th>画像状态</th>
+                            <th width="300">管理操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 页面2: 选择观测对象 ==================== -->
+    <div id="page2" class="page">
+        <div class="header">
+            <h1><i class="fas fa-users"></i> 选择观测对象</h1>
+            <p>点击学生进入测评，系统将根据课程路径动态加载专属问卷</p>
+        </div>
+
+        <!-- 筛选栏 -->
+        <div class="filter-bar">
+            <input type="text" id="searchStudent" placeholder="搜索学生姓名..." oninput="filterStudents()">
+            <select id="filterPath" onchange="filterStudents()">
+                <option value="">全部课程</option>
+                <option value="l1_awareness">L1 意识世界</option>
+                <option value="l2_discovery">L2 发现世界</option>
+                <option value="l3_invention">L3 发明世界</option>
+                <option value="l4_power">L4 动力机械</option>
+                <option value="l5_creation">L5 创造世界</option>
+                <option value="spike">SPIKE</option>
+                <option value="kitten_k2">Kitten K2</option>
+                <option value="kitten_k4">Kitten K4</option>
+                <option value="cpp_a1">AICODE01</option>
+                <option value="cpp_a2">AICODE02</option>
+                <option value="ai_a3">AICODE03</option>
+            </select>
+        </div>
+
+        <div id="studentGrid" class="student-grid"></div>
+
+        <div class="btn-group center">
+            <button class="btn-gray" onclick="showPage(1)">
+                <i class="fas fa-arrow-left"></i> 返回名册中心
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== 页面3: 问卷测评 ==================== -->
+    <div id="page3" class="page">
+        <!-- 进度条 -->
+        <div class="sticky-progress">
+            <div class="progress-info">
+                <span id="p-text">维度观测进度: 0/0</span>
+                <span id="save-hint" class="save-hint"><i class="fas fa-check-circle"></i> 数据已实时同步</span>
+            </div>
+            <div class="p-bar">
+                <div id="p-fill" class="p-fill"></div>
+            </div>
+        </div>
+
+        <!-- 学生信息卡片 -->
+        <div class="survey-header-card">
+            <div class="student-info">
+                <h2 id="survey-student-name"></h2>
+                <span id="survey-path-badge" class="path-badge"></span>
+            </div>
+            <div class="survey-actions">
+                <button class="btn-small btn-gray" onclick="showPage(2)">
+                    <i class="fas fa-arrow-left"></i> 返回选人
+                </button>
+            </div>
+        </div>
+
+        <!-- 问卷内容区 -->
+        <div id="dynamicSurvey"></div>
+
+        <!-- 底部操作 -->
+        <div class="survey-footer">
+            <div class="btn-group">
+                <button class="btn-gray" onclick="showPage(2)">
+                    <i class="fas fa-arrow-left"></i> 返回选人
+                </button>
+                <button class="btn-primary" onclick="generatePortrait()">
+                    <i class="fas fa-magic"></i> 生成/更新结构化画像卡
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 页面4: 画像结果 ==================== -->
+    <div id="page4" class="page">
+        <!-- 加载动画 -->
+        <div id="loading" class="loading-overlay" style="display:none;">
+            <div class="loading-content">
+                <i class="fas fa-sync fa-spin fa-3x"></i>
+                <p>正在对 100+ 维度数据进行数字化建模转换...</p>
+                <p class="loading-sub">AI 正在生成专业画像报告</p>
+            </div>
+        </div>
+
+        <!-- 画像输出 -->
+        <div id="portraitOutput"></div>
+
+        <!-- 底部操作 -->
+        <div class="portrait-footer">
+            <div class="btn-group">
+                <button class="btn-info" onclick="copyPortrait()">
+                    <i class="fas fa-copy"></i> 复制 Markdown 源码
+                </button>
+                <button class="btn-success" onclick="saveToArchive()">
+                    <i class="fas fa-save"></i> 存入档案库
+                </button>
+                <button class="btn-gray" onclick="showPage(2)">
+                    <i class="fas fa-user"></i> 测评下一位
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 页面5: 档案库 ==================== -->
+    <div id="page5" class="page">
+        <div class="header archive-header">
+            <div>
+                <h1><i class="fas fa-archive"></i> 数字化档案库</h1>
+                <p>全员画像数据汇总与导出</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn-info" onclick="downloadAllMerged()">
+                    <i class="fas fa-file-export"></i> 全员导出汇总(.md)
+                </button>
+                <button class="btn-gray" onclick="showPage(1)">
+                    <i class="fas fa-arrow-left"></i> 返回首页
+                </button>
+            </div>
+        </div>
+
+        <!-- 档案筛选 -->
+        <div class="filter-bar">
+            <input type="text" id="searchArchive" placeholder="搜索档案..." oninput="filterArchives()">
+            <select id="filterArchivePath" onchange="filterArchives()">
+                <option value="">全部课程</option>
+                <option value="l1_awareness">L1 意识世界</option>
+                <option value="l2_discovery">L2 发现世界</option>
+                <option value="l3_invention">L3 发明世界</option>
+                <option value="l4_power">L4 动力机械</option>
+                <option value="l5_creation">L5 创造世界</option>
+                <option value="spike">SPIKE</option>
+                <option value="kitten_k2">Kitten K2</option>
+                <option value="kitten_k4">Kitten K4</option>
+                <option value="cpp_a1">AICODE01</option>
+                <option value="cpp_a2">AICODE02</option>
+                <option value="ai_a3">AICODE03</option>
+            </select>
+        </div>
+
+        <div id="libraryContent" class="library-grid"></div>
+    </div>
+</div>
+
+<!-- Toast 提示 -->
+<div id="toast" class="toast" style="display:none;"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
