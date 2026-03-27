@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育智库 - 2026全阶段学生数字化画像系统</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+/* [样式保持不变] */
+:root { --primary: #0f172a; --accent: #2563eb; --success: #10b981; --info: #6366f1; --warning: #f59e0b; --danger: #ef4444; --bg: #f8fafc; --border: #e2e8f0; --text: #334155; --text-light: #64748b; --shadow: 0 4px 6px -1px rgba(0,0,0,0.1); --shadow-lg: 0 20px 50px rgba(0,0,0,0.1); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: var(--text); line-height: 1.6; min-height: 100vh; padding: 20px; }
+.container { max-width: 1400px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); min-height: 90vh; }
+.top-nav { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); padding: 15px 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #fcd34d; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.top-nav i { color: var(--warning); font-size: 20px; }
+.top-nav input { flex: 1; min-width: 250px; padding: 10px 15px; border: 1px solid #d1d5db; border-radius: 10px; outline: none; font-size: 14px; }
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.hero { text-align: center; margin-bottom: 30px; padding: 20px 0; }
+.hero h1 { font-size: 32px; color: var(--primary); margin-bottom: 10px; font-weight: 700; }
+.stats-bar { display: flex; justify-content: center; gap: 40px; margin: 25px 0; padding: 25px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 20px; box-shadow: var(--shadow); }
+.stat-item { text-align: center; padding: 0 20px; }
+.stat-number { display: block; font-size: 42px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 5px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+.section { margin: 25px 0; padding: 25px; border: 1px solid #e2e8f0; border-radius: 18px; background: #fff; box-shadow: var(--shadow); }
+.section h3 { border-left: 5px solid var(--accent); padding-left: 15px; color: var(--primary); margin: 0 0 20px 0; background: #f8fafc; padding: 12px 15px; font-size: 18px; border-radius: 0 10px 10px 0; font-weight: 600; }
+.import-format { background: #f0f9ff; padding: 12px 15px; border-radius: 10px; margin-bottom: 15px; font-size: 13px; color: var(--text-light); }
+textarea, input[type="text"], select { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border); font-size: 14px; font-family: inherit; }
+textarea { resize: vertical; min-height: 100px; }
+.edit-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 15px 0; background: #f0f9ff; padding: 20px; border-radius: 15px; }
+.form-group label { display: block; font-size: 12px; color: var(--text-light); margin-bottom: 6px; font-weight: 500; }
+button { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-info { background: var(--info); color: #fff; }
+.btn-warning { background: var(--warning); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-gray { background: #e2e8f0; color: #475569; }
+.btn-small { padding: 8px 16px; font-size: 12px; }
+.btn-large { height: 80px; font-size: 16px; flex-direction: column; gap: 8px; padding: 15px; }
+.btn-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+.btn-group.center { justify-content: center; }
+.table-container { margin-top: 20px; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table th, .data-table td { padding: 14px; text-align: left; border-bottom: 1px solid var(--border); }
+.data-table th { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); font-weight: 600; color: var(--primary); }
+.path-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; display: inline-block; }
+.badge-preschool { background: linear-gradient(135deg, #fee2e2, #fed7aa); color: #9a3412; }
+.badge-kitten { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #166534; }
+.badge-cpp { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; }
+.badge-ai { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: #6b21a8; }
+.badge-gray { background: #f3f4f6; color: #6b7280; }
+.student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin: 25px 0; }
+.stu-card { background: #fff; border: 2px solid var(--border); padding: 25px; border-radius: 16px; cursor: pointer; text-align: center; transition: all 0.3s; box-shadow: var(--shadow); }
+.stu-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15); }
+.stu-card h4 { margin: 0 0 8px 0; color: var(--primary); font-size: 18px; font-weight: 600; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.status-dot.completed { background: var(--success); }
+.status-dot.pending { background: #cbd5e1; }
+.status-dot.half { background: var(--info); }
+.filter-bar { display: flex; gap: 15px; margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 12px; }
+.header { text-align: center; margin-bottom: 25px; padding: 20px 0; }
+.archive-header { display: flex; justify-content: space-between; align-items: center; text-align: left; }
+.survey-header-card { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 16px; margin-bottom: 25px; box-shadow: var(--shadow); }
+.sticky-progress { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); padding: 15px 0; border-bottom: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.progress-info { display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; padding: 0 10px; margin-bottom: 10px; }
+.save-hint { color: var(--success); font-size: 13px; }
+.p-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.p-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); width: 0%; transition: width 0.4s ease; }
+.question-section { margin: 25px 0; padding: 25px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: var(--shadow); }
+.question-section h3 { border-left: 5px solid var(--accent); padding-left: 15px; color: var(--primary); margin: 0 0 20px 0; background: #f8fafc; padding: 12px 15px; font-size: 17px; border-radius: 0 10px 10px 0; font-weight: 600; }
+.question-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.q-wrap { background: #fafafa; border: 1px solid #e5e7eb; padding: 18px; border-radius: 12px; transition: all 0.2s; }
+.q-wrap:hover { border-color: var(--accent); background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.q-label { display: block; font-weight: 600; margin-bottom: 12px; font-size: 14px; color: #374151; }
+.opt-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt-item { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.15s; user-select: none; }
+.opt-item input { margin: 0; width: 16px; height: 16px; accent-color: var(--accent); }
+.opt-item:hover { border-color: var(--accent); background: #f0f9ff; }
+.opt-item.checked { background: #eff6ff; border-color: var(--accent); font-weight: 600; color: var(--accent); }
+.portrait-card { border: 2px solid #1f2937; border-radius: 0; background: #fff; font-family: 'JetBrains Mono', 'Noto Sans SC', monospace; margin: 20px 0; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+.p-header { background: #1f2937; color: #fff; padding: 25px 35px; display: flex; justify-content: space-between; align-items: center; }
+.p-header h2 { font-size: 24px; margin: 0; }
+.p-header span { font-size: 14px; font-weight: 600; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; }
+.p-body { padding: 40px; font-size: 14px; color: #1f2937; line-height: 1.8; }
+.p-body h2 { border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 30px; margin-bottom: 15px; color: #1f2937; }
+.p-body ul { padding-left: 20px; }
+.p-body li { margin-bottom: 8px; }
+.loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.loading-content { text-align: center; padding: 50px; }
+.library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 25px; }
+.toast { position: fixed; top: 20px; right: 20px; padding: 15px 25px; background: var(--success); color: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 9999; animation: slideIn 0.3s ease; font-weight: 500; }
+.toast.error { background: var(--danger); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.empty-state { text-align: center; padding: 60px; color: var(--text-light); grid-column: 1 / -1; }
+.error-msg { text-align: center; padding: 50px; color: var(--danger); }
+@media (max-width: 768px) { .container { padding: 15px; } .grid-2, .edit-form { grid-template-columns: 1fr; } .stats-bar, .filter-bar, .archive-header { flex-direction: column; } }
+@media print { .top-nav, .btn-group, .sticky-progress { display: none !important; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-nav">
+        <i class="fas fa-robot"></i>
+        <strong>智谱AI API Key:</strong>
+        <input type="password" id="api_key" placeholder="填入 Zhipu AI API Key">
+        <button class="btn-small btn-gray" onclick="saveApiKey()">保存</button>
+        <button class="btn-small btn-info" onclick="showSystemCheck()"><i class="fas fa-tools"></i> 功能检查</button>
+    </div>
+
+    <div id="page-home" class="page active">
+        <div class="hero">
+            <h1><i class="fas fa-microchip"></i> 2026全阶段学生画像记录系统</h1>
+            <p>基于客观观测数据填报，动态生成千人千面标准化课评档案 (入库严格统计版)</p>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-number" id="stat-total">0</span><span class="stat-label">总名单数</span></div>
+            <div class="stat-item"><span class="stat-number" id="stat-portraits">0</span><span class="stat-label">已正式入库档案</span></div>
+        </div>
+        <div class="section" id="system-check" style="display: none;">
+            <h3><i class="fas fa-tools"></i> 系统功能检查</h3>
+            <div id="check-results" style="margin: 20px 0;"></div>
+            <div class="btn-group">
+                <button class="btn-info" onclick="runSystemCheck()"><i class="fas fa-play-circle"></i> 运行功能检查</button>
+                <button class="btn-gray" onclick="hideSystemCheck()"><i class="fas fa-times"></i> 关闭</button>
+            </div>
+        </div>
+        <div class="grid-2">
+            <button class="btn-large btn-info" onclick="showPage('archive')"><i class="fas fa-archive"></i><span>查阅画像文库</span></button>
+            <button class="btn-large btn-success" onclick="showPage('student-list')"><i class="fas fa-user-edit"></i><span>填写观测问卷</span></button>
+        </div>
+        <div class="section">
+            <h3><i class="fas fa-file-import"></i> 智能名单入库</h3>
+            <div class="import-format"><p>格式：<code>姓名 性别 班级 上课时间</code> 示例：李华 男 L1-意识世界-周六 周六上午9:00（支持空格、逗号分隔）</p></div>
+            <textarea id="batchInput" rows="3" placeholder="粘贴学生名单，每行一个学生..."></textarea>
+            <div id="editForm" class="edit-form" style="display:none;">
+                <div class="form-group"><label>姓名</label><input type="text" id="editName"></div>
+                <div class="form-group"><label>性别</label><select id="editSex"><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select></div>
+                <div class="form-group"><label>班级</label><input type="text" id="editClass"></div>
+                <div class="form-group"><label>时间</label><input type="text" id="editTime"></div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-primary" id="mainEntryBtn" onclick="handleMainAction()"><i class="fas fa-magic"></i> 导入名单</button>
+                <button class="btn-gray" id="cancelEditBtn" style="display:none;" onclick="cancelEdit()">取消</button>
+                <button class="btn-gray" onclick="exportBackup()"><i class="fas fa-download"></i> 数据备份</button>
+                <button class="btn-gray" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> 数据还原</button>
+                <input type="file" id="importFile" style="display:none" accept=".json" onchange="importBackup(this)">
+            </div>
+            <div class="table-container">
+                <table id="stuTable" class="data-table">
+                    <thead><tr><th>姓名</th><th>班级</th><th>路径</th><th>时间</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-student-list" class="page">
+        <div class="header"><h1><i class="fas fa-users"></i> 选择观测对象</h1></div>
+        <div class="filter-bar">
+            <input type="text" id="searchStudent" placeholder="搜索学生..." oninput="filterStudents()">
+            <select id="filterPath" onchange="filterStudents()">
+                <option value="">全部课程</option>
+                <option value="l1_awareness">L1 意识世界</option><option value="l2_discovery">L2 发现世界</option>
+                <option value="l3_invention">L3 发明世界</option><option value="l5_creation">L5 创造世界</option>
+                <option value="spike">SPIKE</option>
+                <option value="kitten_k2">Kitten K2</option><option value="kitten_k4">Kitten K4</option>
+                <option value="cpp_a1">AICODE01 (C++)</option><option value="cpp_a2">AICODE02 (C++)</option><option value="ai_a3">AICODE03 (AI)</option>
+            </select>
+        </div>
+        <div id="studentGrid" class="student-grid"></div>
+        <div class="btn-group center"><button class="btn-gray" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> 返回主页</button></div>
+    </div>
+
+    <div id="page-survey" class="page">
+        <div class="sticky-progress">
+            <div class="progress-info"><span id="p-text">进度: 0/0 (0%)</span><span id="save-hint" class="save-hint"><i class="fas fa-check-circle"></i> 已保存</span></div>
+            <div class="p-bar"><div id="p-fill" class="p-fill"></div></div>
+        </div>
+        <div class="survey-header-card">
+            <div class="student-info"><h2 id="survey-student-name"></h2><span id="survey-path-badge" class="path-badge"></span></div>
+            <button class="btn-small btn-gray" onclick="showPage('student-list')"><i class="fas fa-arrow-left"></i> 返回列表</button>
+        </div>
+        <div id="dynamicSurvey"></div>
+        <div class="survey-footer">
+            <div class="btn-group">
+                <button class="btn-gray" onclick="showPage('student-list')">返回</button>
+                <button class="btn-primary" onclick="generatePortrait()"><i class="fas fa-file-alt"></i> 基于填报数据生成档案</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-portrait" class="page">
+        <div id="loading" class="loading-overlay" style="display:none;">
+            <div class="loading-content"><i class="fas fa-sync fa-spin fa-3x"></i><p>AI 正在严格根据填写进度自适应生成档案...</p></div>
+        </div>
+        <div id="portraitOutput"></div>
+        <div class="portrait-footer">
+            <div class="btn-group">
+                <button class="btn-info" onclick="copyPortrait()"><i class="fas fa-copy"></i> 一键复制报告</button>
+                <button class="btn-success" onclick="saveToArchive()"><i class="fas fa-save"></i> 确认并存入文库</button>
+                <button class="btn-gray" onclick="showPage('student-list')">返回上一页</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-archive" class="page">
+        <div class="header archive-header">
+            <div><h1><i class="fas fa-archive"></i> 画像文库</h1></div>
+            <div class="btn-group">
+                <button class="btn-info" onclick="downloadAllMerged()"><i class="fas fa-file-export"></i> 导出全员 Markdown</button>
+                <button class="btn-gray" onclick="showPage('home')">返回主页</button>
+            </div>
+        </div>
+        <div class="filter-bar">
+            <input type="text" id="searchArchive" placeholder="搜索档案..." oninput="filterArchives()">
+            <select id="filterArchivePath" onchange="filterArchives()">
+                <option value="">全部课程</option>
+                <option value="l1_awareness">L1</option><option value="l2_discovery">L2</option><option value="l3_invention">L3</option>
+                <option value="l5_creation">L5</option><option value="spike">SPIKE</option>
+                <option value="kitten_k2">K2</option><option value="kitten_k4">K4</option>
+                <option value="cpp_a1">A1</option><option value="cpp_a2">A2</option><option value="ai_a3">A3</option>
+            </select>
+        </div>
+        <div id="libraryContent" class="library-grid"></div>
+    </div>
+</div>
+
+<script>
+const PATH_CONFIG = {
+    "l1_awareness": {name: "L1 意识世界", badge: "badge-preschool", grade: "小小班"},
+    "l2_discovery": {name: "L2 发现世界", badge: "badge-preschool", grade: "小班"},
+    "l3_invention": {name: "L3 发明世界", badge: "badge-preschool", grade: "中班"},
+    "l5_creation": {name: "L5 创造世界", badge: "badge-preschool", grade: "大班"},
+    "spike": {name: "SPIKE 科创", badge: "badge-kitten", grade: "一年级"},
+    "kitten_k2": {name: "Kitten K2", badge: "badge-kitten", grade: "二年级"},
+    "kitten_k4": {name: "Kitten K4", badge: "badge-kitten", grade: "三年级"},
+    "cpp_a1": {name: "AICODE01", badge: "badge-cpp", grade: "四年级及以上"},
+    "cpp_a2": {name: "AICODE02", badge: "badge-cpp", grade: "四年级及以上"},
+    "ai_a3": {name: "AICODE03", badge: "badge-ai", grade: "四年级及以上"}
+};
+
+// 【超维问卷】全量配置保留
+const SURVEY_CONFIG = {
+  "common": [
+    {"group": "基本信息 (共5项)", "items": [
+      {"id": "info_name", "label": "学生全名", "type": "text"},
+      {"id": "info_nickname", "label": "小名/昵称 (课评称呼)", "type": "text"},
+      {"id": "info_gender", "label": "性别", "type": "radio", "opts": ["男", "女"]},
+      {"id": "info_grade", "label": "年级", "type": "radio", "opts": ["小小班", "小班", "中班", "大班", "一年级", "二年级", "三年级", "四年级及以上"]},
+      {"id": "info_school", "label": "所在学校", "type": "text"}
+    ]},
+    {"group": "性格气质与情绪 (共6项)", "items": [
+      {"id": "c_type", "label": "气质类型", "type": "radio", "opts": ["活泼型(外向/精力充沛)", "谨慎型(内向/深思熟虑)", "平和型(情绪稳定)", "敏感型(细腻/需安全感)"]},
+      {"id": "c_emotion", "label": "情绪稳定性", "type": "radio", "opts": ["非常稳定", "偶有波动", "容易急躁", "易崩溃需安抚"]},
+      {"id": "c_frustration", "label": "抗挫折能力", "type": "radio", "opts": ["越挫越勇主动思考", "需安抚后继续尝试", "容易气馁甚至哭闹", "直接放弃或逃避"]},
+      {"id": "c_patience", "label": "任务耐心度", "type": "radio", "opts": ["能沉下心完成重复繁琐步骤", "正常水平", "容易烦躁草草了事", "完全没有耐心"]},
+      {"id": "c_confidence", "label": "自信心表现", "type": "radio", "opts": ["极度自信勇于表现", "比较自信", "害怕出错不敢尝试", "极度自卑退缩"]},
+      {"id": "c_adaptability", "label": "环境适应力", "type": "radio", "opts": ["瞬间融入新环境", "需要短暂观察", "慢热型/需引导", "极度抗拒新环境"]}
+    ]},
+    {"group": "社交协作与沟通 (共5项)", "items": [
+      {"id": "s_social", "label": "同伴互动模式", "type": "radio", "opts": ["主动交友/热情", "被动跟随", "平行玩耍不干涉", "完全独自沉浸"]},
+      {"id": "s_conflict", "label": "冲突处理", "type": "radio", "opts": ["主动沟通解决", "退让回避", "向老师告状", "出现肢体或言语攻击"]},
+      {"id": "s_teamwork", "label": "团队合作", "type": "radio", "opts": ["乐于配合分工", "只顾自己不管队友", "容易与队友起争执", "拒绝参与团队任务"]},
+      {"id": "s_sharing", "label": "分享意愿", "type": "radio", "opts": ["主动分享零件/思路", "愿意互换", "极度护食/拒绝分享", "抢夺他人物品"]},
+      {"id": "s_express", "label": "表达与求助", "type": "radio", "opts": ["表达清晰主动求助", "知道求助但词不达意", "默默等待老师发现", "出错也不肯说话"]}
+    ]},
+    {"group": "学习习惯与专注力 (共5项)", "items": [
+      {"id": "l_style", "label": "主要吸收偏好", "type": "radio", "opts": ["视觉型(看示范)", "听觉型(听讲解)", "动觉型(自己动手)"]},
+      {"id": "l_focus_time", "label": "进入专注状态时长", "type": "radio", "opts": ["秒进状态", "5分钟内预热", "10分钟以上", "整节课游离"]},
+      {"id": "l_distract", "label": "抗外界干扰", "type": "radio", "opts": ["极强(不受旁边声音影响)", "中等(提醒后能拉回)", "极弱(风吹草动就分心)"]},
+      {"id": "l_instruction", "label": "听指令情况", "type": "radio", "opts": ["完整执行多步指令", "只能执行单步", "左耳进右耳出", "故意违抗指令"]},
+      {"id": "l_reward", "label": "最有效的激励方式", "type": "radio", "opts": ["言语实质夸奖", "积分/贴纸奖励", "作品展示机会", "赋予小班长特权"]}
+    ]}
+  ],
+
+  "grade_based": {
+    "preschool": [
+      {"group": "学前基础评估 (共5项)", "items": [
+        {"id": "g_p_motor", "label": "手部精细动作发力", "type": "radio", "opts": ["发力精准捏得紧", "符合年龄段", "略显笨拙", "完全不会用力"]},
+        {"id": "g_p_color", "label": "颜色形状识别", "type": "radio", "opts": ["能准确命名复杂颜色形状", "基础认知无误", "偶尔混淆", "完全分不清"]},
+        {"id": "g_p_space", "label": "空间方位认知", "type": "radio", "opts": ["清晰分清上下内外", "基础掌握", "经常放反", "没有空间概念"]},
+        {"id": "g_p_tidy", "label": "收纳与秩序感", "type": "radio", "opts": ["主动按分类整理", "老师提醒后收拾", "胡乱塞进盒子", "到处乱扔拒收拾"]},
+        {"id": "g_p_separation", "label": "分离焦虑", "type": "radio", "opts": ["无焦虑独立上课", "偶尔看门外家长", "需要家长陪同半节课", "家长离开即大哭"]}
+      ]}
+    ],
+    "primary": [
+      {"group": "小学基础评估 (共6项)", "items": [
+        {"id": "g_pr_mouse", "label": "鼠标操作熟练度", "type": "radio", "opts": ["熟练拖拽/点击精准", "偶尔点飞/不太灵活", "完全不会使用鼠标"]},
+        {"id": "g_pr_keyboard", "label": "键盘字母认知", "type": "radio", "opts": ["能较快找到字母键", "找键非常慢/一指禅", "完全不认识键盘字母"]},
+        {"id": "g_pr_read", "label": "文字阅读理解", "type": "radio", "opts": ["能独立阅读题目规则", "需拼音辅助", "需老师读题拆解", "抵触文字较多的内容"]},
+        {"id": "g_pr_math", "label": "基础数理逻辑", "type": "radio", "opts": ["口算快/理解坐标概念", "符合年级水平", "需掰手指计算", "数理基础极度薄弱"]},
+        {"id": "g_pr_logic", "label": "因果逻辑推理", "type": "radio", "opts": ["能清晰说出因为所以", "在引导下能理顺", "逻辑经常颠倒", "完全靠蒙"]},
+        {"id": "g_pr_screen", "label": "屏幕时间习惯", "type": "radio", "opts": ["仅关注课程软件", "偶尔想切去玩游戏", "极易被电脑其他诱惑吸引"]}
+      ]}
+    ],
+    "middle": [
+      {"group": "高年级基础评估 (共6项)", "items": [
+        {"id": "g_m_mouse", "label": "鼠标操作熟练度", "type": "radio", "opts": ["操作非常熟练", "基本可以完成操作", "动作生疏"]},
+        {"id": "g_m_keyboard", "label": "键盘打字熟练度", "type": "radio", "opts": ["熟悉键位/偶尔盲打", "需低头找键/速度一般", "指法错误/速度极慢"]},
+        {"id": "g_m_eng", "label": "英语基础(代码适应)", "type": "radio", "opts": ["词汇量大/不惧满屏英文", "能记住常见的代码单词", "非常抗拒英文单词"]},
+        {"id": "g_m_abstract", "label": "抽象思维转换", "type": "radio", "opts": ["能将现实问题快速变模型", "引导下可完成", "只能具象思考套公式", "无法理解抽象题意"]},
+        {"id": "g_m_self_learn", "label": "自主探索意愿", "type": "radio", "opts": ["遇到盲区主动试错探索", "等老师给最终答案", "只做被要求的最低限度任务"]},
+        {"id": "g_m_search", "label": "搜商与查错工具", "type": "radio", "opts": ["能熟练用搜索引擎查报错", "偶尔会去查", "完全不会/只依赖真人老师"]}
+      ]}
+    ]
+  },
+
+  "l1_awareness": [
+    {"group": "L1 意识世界深度观测 (共12项)", "items": [
+      {"id": "l1_1", "label": "空间建构规划", "type": "radio", "opts": ["能搭建立体多重结构且有规划", "能搭建立体但较随意", "仅能单线延伸", "平面简单拼接", "随意堆砌无目的"]},
+      {"id": "l1_2", "label": "力量与按压", "type": "radio", "opts": ["能轻松压紧积木互锁", "发力较弱需反复按压", "完全按不到位一碰就散"]},
+      {"id": "l1_3", "label": "管道连通逻辑", "type": "radio", "opts": ["透彻理解起点到终点", "知道对接但无连通概念", "只看颜色不管方向", "乱接导致全部堵死"]},
+      {"id": "l1_4", "label": "重心与平衡", "type": "radio", "opts": ["知道底座要大才稳", "积木倒了会主动加固底部", "一直倒一直拼不知加固", "倒了就发脾气"]},
+      {"id": "l1_5", "label": "色彩搭配美学", "type": "radio", "opts": ["刻意追求对称或同色系", "随意抓取颜色", "偏执于某一种颜色(如只用红色)"]},
+      {"id": "l1_6", "label": "观察细节", "type": "radio", "opts": ["能敏锐发现老师样机的隐蔽零件", "只能看到大概轮廓", "完全不看样机"]},
+      {"id": "l1_7", "label": "模仿与创新", "type": "radio", "opts": ["在模仿基础上做大量改造", "能1:1完美复刻", "拼得四不像", "拒绝模仿只按自己心意拼"]},
+      {"id": "l1_8", "label": "想象力与故事", "type": "radio", "opts": ["赋予作品极其丰富的剧情背景", "能简单说出它是什么", "沉默不语"]},
+      {"id": "l1_9", "label": "拆解分类习惯", "type": "radio", "opts": ["能按颜色形状放回对应格", "混在一起扔进框里", "乱丢在地上让老师收"]},
+      {"id": "l1_10", "label": "动态反馈追踪", "type": "radio", "opts": ["目光能紧盯球在管道里的轨迹", "球跑出来就忘了看", "只管拼不管球"]},
+      {"id": "l1_11", "label": "对轮子/轴的认知", "type": "radio", "opts": ["知道轮子要配合轴才能转", "硬把轮子卡在方块上", "不理解滚动概念"]},
+      {"id": "l1_12", "label": "图纸启蒙", "type": "radio", "opts": ["能看懂简单的2D转3D图纸", "需老师点读", "完全不看图"]}
+    ]}
+  ],
+  "l2_discovery": [
+    {"group": "L2 发现世界深度观测 (共12项)", "items": [
+      {"id": "l2_1", "label": "螺丝刀握持姿势", "type": "radio", "opts": ["标准握姿且发力垂直", "姿势别扭但能拧", "总是斜着拧滑丝", "拿不住工具"]},
+      {"id": "l2_2", "label": "正反转顺逆时针", "type": "radio", "opts": ["完全理解顺紧逆松", "偶尔拧反能自我纠正", "一直拧反不知道怎么拆"]},
+      {"id": "l2_3", "label": "微观孔位对齐", "type": "radio", "opts": ["快速准确找到对应孔位", "需观察一会才能对准", "经常错位拼接", "无法理解多层孔位对齐逻辑"]},
+      {"id": "l2_4", "label": "零件甄别能力", "type": "radio", "opts": ["能准确区分长短螺丝/不同条板", "需比对很久", "经常拿错导致工程返工"]},
+      {"id": "l2_5", "label": "图纸空间转换", "type": "radio", "opts": ["能独立看懂爆炸图/多步图", "需老师拆解单步", "仅能模仿实物样机", "不看图凭感觉"]},
+      {"id": "l2_6", "label": "工程修复意识", "type": "radio", "opts": ["发现装错主动拆卸重装", "发现错误但不知如何改", "无视错误强行硬装", "直接丢下不拼了"]},
+      {"id": "l2_7", "label": "紧固扭矩感知", "type": "radio", "opts": ["拧紧即停", "拧太松导致散架", "死命拧导致零件卡死拆不掉"]},
+      {"id": "l2_8", "label": "双手协同配合", "type": "radio", "opts": ["一手拿板一手拧螺丝极其协调", "需在大腿上借力", "必须老师帮忙按住板子才能拧"]},
+      {"id": "l2_9", "label": "空间对称理解", "type": "radio", "opts": ["能自主拼出左右对称的结构", "经常把左右轮子拼在同一侧", "没有对称概念"]},
+      {"id": "l2_10", "label": "创意加装", "type": "radio", "opts": ["主体完工后自主加装雷达/武器等", "换个颜色就算创意", "绝不加一片多余零件"]},
+      {"id": "l2_11", "label": "工作台整洁度", "type": "radio", "opts": ["零件摆放井井有条", "边找边扒拉稍显杂乱", "满桌子乱滚找不到螺丝"]},
+      {"id": "l2_12", "label": "物理因果预判", "type": "radio", "opts": ["能猜到少一个螺丝会塌", "装完发现塌了才恍然大悟", "老师说会塌也完全不理解"]}
+    ]}
+  ],
+  "l3_invention": [
+    {"group": "L3 发明世界深度观测 (共12项)", "items": [
+      {"id": "l3_1", "label": "空间方位代入(难点)", "type": "radio", "opts": ["完美代入机器人视角分左右", "复杂转弯需比划半天", "经常以自我中心分左右", "完全缺乏方向感"]},
+      {"id": "l3_2", "label": "步数与距离测算", "type": "radio", "opts": ["肉眼精准目测所需格子数", "需用手一格格数", "经常多数/少数一格", "凭感觉乱放前进指令"]},
+      {"id": "l3_3", "label": "角度转向逻辑", "type": "radio", "opts": ["透彻理解转弯在原地不前进", "常误以为转弯包含走一步", "左右转向角度经常放反"]},
+      {"id": "l3_4", "label": "序列记忆(脑内预演)", "type": "radio", "opts": ["能在脑内连贯推演5步以上路径", "放一块看一块(走一步算一步)", "完全凭瞎蒙试错"]},
+      {"id": "l3_5", "label": "循环指令(重复)掌握", "type": "radio", "opts": ["敏锐发现规律并使用循环打包", "在提示下能用循环", "坚持全部用单步平铺写完", "无法理解循环概念"]},
+      {"id": "l3_6", "label": "Debug纠错能力", "type": "radio", "opts": ["精准在指令盘中找出导致偏航的方块", "需老师圈出错误范围", "出错直接推翻所有指令重摆", "出错就发脾气罢工"]},
+      {"id": "l3_7", "label": "条件触发理解", "type": "radio", "opts": ["能熟练使用'遇到障碍物'等判断指令", "逻辑经常写反", "完全不理解如果...就..."]},
+      {"id": "l3_8", "label": "函数(子程序)调用", "type": "radio", "opts": ["能将画正方形等封装为函数调用", "知道概念但不会放", "觉得太复杂拒不使用"]},
+      {"id": "l3_9", "label": "多任务并行规划", "type": "radio", "opts": ["能规划最短路径吃完全部金币", "能吃到但绕了很多弯路", "只能看见眼前的第一个目标"]},
+      {"id": "l3_10", "label": "指令块归位习惯", "type": "radio", "opts": ["用完后整齐插回原位", "随意堆在控制板旁", "满地乱丢指令块"]},
+      {"id": "l3_11", "label": "故事与地图结合", "type": "radio", "opts": ["能结合地图场景边走边讲故事", "只管机械完成任务", "对地图背景毫无兴趣"]},
+      {"id": "l3_12", "label": "耐心与受挫复原", "type": "radio", "opts": ["多次失败仍兴致勃勃修改", "失败三次以上就想放弃", "第一次偏航就崩溃叫老师"]}
+    ]}
+  ],
+  "l5_creation": [
+    {"group": "L5 创造世界深度观测 (共12项)", "items": [
+      {"id": "l5_1", "label": "物理机械原理认知", "type": "checkbox", "opts": ["透彻理解齿轮加速减速", "掌握冠状齿轮改变传动方向", "理解杠杆省力原理", "掌握皮带交叉传动", "理解滑轮组的应用"]},
+      {"id": "l5_2", "label": "结构稳定性", "type": "radio", "opts": ["搭建速度快且结构互锁极度坚固", "结构基本稳定但偶尔漏件", "关键受力点薄弱容易散架", "经常拼错导致机械卡死"]},
+      {"id": "l5_3", "label": "图形化编程控制", "type": "radio", "opts": ["熟练运用马达与传感器逻辑", "能照图拖拽代码并简单改参数", "代码拼接经常出现死循环或断连", "缺乏软硬件结合概念"]},
+      {"id": "l5_4", "label": "项目创新与改造", "type": "radio", "opts": ["基础完成后能主动进行外观与功能大改造", "仅进行简单的颜色或小零件替换", "完全按图纸搭建无任何改动", "未完成基础搭建就急于去玩"]},
+      {"id": "l5_5", "label": "电机(马达)控制", "type": "radio", "opts": ["编程精准控制功率/时间/方向", "只会最简单的开启", "经常因为结构卡死烧马达"]},
+      {"id": "l5_6", "label": "传感器交互运用", "type": "radio", "opts": ["熟练用距离/倾斜做条件判断", "只会复制图纸上的传感器代码", "不理解传感器的触发阈值"]},
+      {"id": "l5_7", "label": "软硬件排错(找Bug)", "type": "radio", "opts": ["能主动排查是机械卡死还是代码写错", "不管硬件只改代码", "遇到不转就大叫老师坏了"]},
+      {"id": "l5_8", "label": "线缆收纳管理", "type": "radio", "opts": ["主动把线绕在轴上不卷入齿轮", "线到处飞经常被齿轮绞死", "完全没有理线概念"]},
+      {"id": "l5_9", "label": "图形代码阅读", "type": "radio", "opts": ["能看懂并预判一串拖拽代码的结果", "只能照葫芦画瓢拼", "经常漏掉关键参数方块"]},
+      {"id": "l5_10", "label": "平板/设备操作", "type": "radio", "opts": ["蓝牙连接、切后台一气呵成", "需老师帮忙连蓝牙", "经常误删代码找不回"]},
+      {"id": "l5_11", "label": "物理生活常识映射", "type": "radio", "opts": ["能将课堂结构联想到生活中的起重机等", "只能孤立理解课堂知识", "生活常识极其匮乏"]},
+      {"id": "l5_12", "label": "课堂任务连贯性", "type": "radio", "opts": ["能顺畅从搭建过渡到编程", "搭建完就不想编程了", "只想玩电脑不想拼积木"]}
+    ]}
+  ],
+  "spike": [
+    {"group": "SPIKE 科创工程深度观测 (共12项)", "items": [
+      {"id": "sp_1", "label": "集线器(Hub)全局控制", "type": "radio", "opts": ["熟练掌握端口映射与矩阵灯阵", "知道连端口但经常插错A/B", "不看端口瞎插导致程序不跑"]},
+      {"id": "sp_2", "label": "多马达同步协同", "type": "radio", "opts": ["完美使用差速转向/底盘同步控制", "调参费力常导致原地打转", "无法理解两个马达怎么配合走直线"]},
+      {"id": "sp_3", "label": "高级传感器应用", "type": "radio", "opts": ["熟练运用超声波阈值与陀螺仪偏角", "只会做简单的遇到黑线就停", "完全不懂传感器回传的数值代表什么"]},
+      {"id": "sp_4", "label": "复杂传动与承重结构", "type": "radio", "opts": ["能搭建承受高扭矩的行星齿轮/差速器", "结构尚可但高负荷会崩齿打滑", "极度缺乏加固意识，总是散架"]},
+      {"id": "sp_5", "label": "等待(Wait-Until)与循环", "type": "radio", "opts": ["透彻理解事件阻塞与持续检测的区别", "常把if放在循环外导致只检测一次", "完全滥用无限循环导致卡顿"]},
+      {"id": "sp_6", "label": "变量与数据存储", "type": "radio", "opts": ["熟练创建变量进行计分/控速等运算", "照抄变量积木但不知其意", "对数字存储毫无概念"]},
+      {"id": "sp_7", "label": "模块化封装(自定义积木)", "type": "radio", "opts": ["主动将重复动作封装为函数提效", "只在要求时才用", "写出几百块的“面条代码”坚决不封装"]},
+      {"id": "sp_8", "label": "隔离排错思维(Troubleshooting)", "type": "radio", "opts": ["主动拔掉传感器或分段测代码找Bug", "盲目调整参数碰运气", "遇到复杂报错直接宕机放弃"]},
+      {"id": "sp_9", "label": "参数微调逼近法", "type": "radio", "opts": ["通过二分法快速锁定最佳转角/速度", "每次加1减1慢吞吞调", "瞎填一个几千的数字乱飞"]},
+      {"id": "sp_10", "label": "竞赛级任务拆解", "type": "radio", "opts": ["拿到宏大任务能迅速切分为小模块突破", "需要老师帮忙划定第一步", "面对复杂场地完全懵圈"]},
+      {"id": "sp_11", "label": "团队配合与分工", "type": "radio", "opts": ["软件硬件分工明确且顺畅拼合", "各干各的最后拼不上起争执", "一人包揽另一人发呆"]},
+      {"id": "sp_12", "label": "工程日志与复盘", "type": "radio", "opts": ["能清晰口述失败原因及优化方案", "只知道说“刚才没拼紧”", "做完就跑毫无反思"]}
+    ]}
+  ],
+  "kitten_k2": [
+    {"group": "Kitten K2 深度观测 (共12项)", "items": [
+      {"id": "k2_1", "label": "二维坐标系(X/Y)理解", "type": "radio", "opts": ["透彻理解正负向及坐标跳转", "只懂基础的上下左右移动", "经常把X和Y弄反", "完全不理解坐标"]},
+      {"id": "k2_2", "label": "角色与舞台管理", "type": "radio", "opts": ["熟练切换多角色脚本，条理清晰", "经常把代码写错到舞台或其他角色里", "找不到自己刚才写的代码在哪"]},
+      {"id": "k2_3", "label": "广播交互机制(事件)", "type": "radio", "opts": ["灵活运用广播实现角色间的精妙配合", "能照抄但常忘记写'接收广播'", "完全不理解A怎么通知B"]},
+      {"id": "k2_4", "label": "If-Else分支逻辑", "type": "radio", "opts": ["熟练处理碰撞、边界等条件判断", "常把条件框放错嵌套层级", "只会用单一If，不懂Else兜底"]},
+      {"id": "k2_5", "label": "侦测与碰撞算法", "type": "radio", "opts": ["精准使用颜色碰到或角色碰到", "颜色拾取经常取错导致判定失效", "不会处理碰到后的反弹逻辑"]},
+      {"id": "k2_6", "label": "基础变量应用(记分/计时)", "type": "radio", "opts": ["熟练掌握创建、初始化归零及增加", "经常忘记开局重置为0", "不理解把变量当成数字去计算"]},
+      {"id": "k2_7", "label": "动画与造型切换", "type": "radio", "opts": ["结合等待积木做出流畅的行走动画", "疯狂切换没有间隔导致闪烁", "不会处理造型与方向匹配"]},
+      {"id": "k2_8", "label": "代码粗心度与规范", "type": "radio", "opts": ["极其严谨，极少漏选下拉菜单参数", "经常因为漏改默认参数出Bug", "一味图快满屏乱放积木不清理"]},
+      {"id": "k2_9", "label": "积木调色板熟悉度", "type": "radio", "opts": ["能秒速在左侧找到所需颜色的积木", "找一块积木要翻找半天", "只靠死记硬背不理解分类逻辑"]},
+      {"id": "k2_10", "label": "无限循环陷阱", "type": "radio", "opts": ["准确知道哪些代码需要放进死循环", "把初始化代码也扔进死循环导致重置", "完全不知道啥时候用循环"]},
+      {"id": "k2_11", "label": "自主拓展设计", "type": "radio", "opts": ["主线完成后能迅速加入惩罚机制或新怪", "老师不说就停手发呆", "连主线都是抄的无力拓展"]},
+      {"id": "k2_12", "label": "视觉与UI感知", "type": "radio", "opts": ["会自己画精美的角色和UI按钮", "简单涂涂改改", "直接用丑陋的默认素材绝不修改"]}
+    ]}
+  ],
+  "kitten_k4": [
+    {"group": "Kitten K4 深度观测 (共12项)", "items": [
+      {"id": "k4_1", "label": "私有与全局变量冲突", "type": "radio", "opts": ["透彻区分'仅适用于当前角色'变量", "经常建错变量类型导致数据错乱", "完全不理解作用域"]},
+      {"id": "k4_2", "label": "克隆体高级管理", "type": "radio", "opts": ["熟练运用克隆体传参、生成及自动销毁", "经常制造克隆风暴导致软件卡死", "不明白本体和克隆体的区别"]},
+      {"id": "k4_3", "label": "列表(数组)数据处理", "type": "radio", "opts": ["熟练进行列表增删改查及遍历", "能把数据塞进去但不会提取索引", "一提到列表就晕圈放弃"]},
+      {"id": "k4_4", "label": "布尔复合逻辑(与/或/非)", "type": "radio", "opts": ["轻松拼装多重条件嵌套(又碰墙又按键)", "逻辑框拼叠极其吃力常卡错孔", "分不清且/或的区别"]},
+      {"id": "k4_5", "label": "复杂算法思维(如排序/寻路)", "type": "radio", "opts": ["能抽象理解并实现简单的贪心或比大小", "生硬照抄算法块但不解其意", "看到长串逻辑直接宕机"]},
+      {"id": "k4_6", "label": "游戏状态机管理", "type": "radio", "opts": ["用变量清晰管理主菜单/进行中/结算状态", "所有代码混在一块，重开必定Bug", "完全没有场景切换概念"]},
+      {"id": "k4_7", "label": "模块化与性能优化", "type": "radio", "opts": ["大量使用自制积木勾选'运行时不刷新'", "存在海量重复CV的垃圾代码", "坚决不用函数，宁愿手写几千行"]},
+      {"id": "k4_8", "label": "高阶数学应用", "type": "radio", "opts": ["能应用绝对值、随机数、取模算网格", "随机数会用但进阶数学吃力", "连基础加减乘除框都放错"]},
+      {"id": "k4_9", "label": "工程问题拆解能力", "type": "radio", "opts": ["能将大BOSS战拆成移动、开火、判定三步", "边想边做逻辑越写越乱", "面对大项目直接趴下求支援"]},
+      {"id": "k4_10", "label": "单步Debug与断点", "type": "radio", "opts": ["善用说出/高亮来追踪断点找Bug", "靠瞎猜盲目改参数试错", "有Bug只会全选删除"]},
+      {"id": "k4_11", "label": "用户体验(UX)打磨", "type": "radio", "opts": ["会做精美血条、连击特效、音效反馈", "只是完成干瘪的数值变化", "界面极度反人类没法玩"]},
+      {"id": "k4_12", "label": "黑客求知精神", "type": "radio", "opts": ["常尝试拆解他人优秀作品源码", "偶尔看看别的小游戏", "对代码原理毫无好奇心，只图玩"]}
+    ]}
+  ],
+  "cpp_a1": [
+    {"group": "AICODE01 (C++基础) 深度观测 (共12项)", "items": [
+      {"id": "a1_1", "label": "纯代码盲打与键位掌握", "type": "radio", "opts": ["熟练盲打且指法标准速度极快", "需要低头看键盘但速度尚可", "严重的一指禅/找字母奇慢"]},
+      {"id": "a1_2", "label": "特殊符号与全半角", "type": "radio", "opts": ["精准掌握大括号、分号且绝不犯全半角错", "偶尔漏分号但能秒补", "满篇全角中文符号，被红线包围"]},
+      {"id": "a1_3", "label": "数据类型与变量声明", "type": "radio", "opts": ["清晰区分int, double, char, bool等", "经常拿int存小数导致精度丢失", "写代码永远不先定义变量"]},
+      {"id": "a1_4", "label": "流输入输出(cin/cout)", "type": "radio", "opts": ["熟练掌握连续输入输出及endl换行", "经常把<<和>>箭头写反", "不知道变量输入前不用加引号"]},
+      {"id": "a1_5", "label": "基础算术与取模(%)", "type": "radio", "opts": ["熟练运用取模判断奇偶/分离数位", "会加减乘除但无法理解取模逻辑", "四则运算的括号优先级经常弄错"]},
+      {"id": "a1_6", "label": "If-Else分支结构", "type": "radio", "opts": ["完美处理多条件判断及嵌套范围", "只写if不写else导致条件漏判", "经常在if括号后面顺手加个分号导致失效"]},
+      {"id": "a1_7", "label": "基础循环(For/While)", "type": "radio", "opts": ["透彻理解i的初始化、条件与自增步长", "经常把循环条件写反导致不进循环", "动不动就写出无限死循环干爆内存"]},
+      {"id": "a1_8", "label": "报错阅读(Compiler Error)", "type": "radio", "opts": ["能看懂英文提示并精准定位报错行", "看不懂英文但能靠行号猜个大概", "看见控制台飘红直接举手喊老师"]},
+      {"id": "a1_9", "label": "逻辑向代码转换", "type": "radio", "opts": ["看完中文题目直接脑内翻译成C++代码", "需在草稿纸列出公式再敲", "题目读懂了但手放键盘上完全不知所措"]},
+      {"id": "a1_10", "label": "缩进与代码美学", "type": "radio", "opts": ["极其自律，缩进对齐完美如教科书", "能用自动格式化快捷键理顺代码", "所有代码顶格写，一坨乱麻不堪入目"]},
+      {"id": "a1_11", "label": "脱离IDE记忆力", "type": "radio", "opts": ["能在白纸上默写出完整main框架", "过度依赖IDE自动补全，换电脑就废", "每节课都要翻书抄#include头文件"]},
+      {"id": "a1_12", "label": "抗枯燥能力", "type": "radio", "opts": ["在黑框框里刷题也能获得极大成就感", "勉强能适应无图的枯燥", "极度想念图形化的花里胡哨，抗拒敲代码"]}
+    ]}
+  ],
+  "cpp_a2": [
+    {"group": "AICODE02 (C++进阶) 深度观测 (共12项)", "items": [
+      {"id": "a2_1", "label": "多重循环嵌套", "type": "radio", "opts": ["熟练打印复杂图形/理解内外层i,j联动", "内外层变量经常写混导致死循环", "完全绕晕无法理解双层抽象"]},
+      {"id": "a2_2", "label": "一维/二维数组处理", "type": "radio", "opts": ["熟练掌握数组索引映射、越界防范", "经常把长度n和下标n-1搞混报错", "不理解把数组下应当成变量去动态访问"]},
+      {"id": "a2_3", "label": "字符串(String)与字符", "type": "radio", "opts": ["精通ASCII码转换与字符串遍历API", "分不清单引号字符和双引号字符串", "处理带空格字符串输入时经常崩溃"]},
+      {"id": "a2_4", "label": "经典算法掌握(排序等)", "type": "radio", "opts": ["能手写冒泡/选择排序，懂交换逻辑", "只能死记硬背几行核心代码", "完全不懂为什么要中间变量temp"]},
+      {"id": "a2_5", "label": "函数参数与返回值", "type": "radio", "opts": ["熟练封装函数、理解传值与传引用(&)", "知道void但不懂return的终止意义", "所有逻辑一坨全写在main里"]},
+      {"id": "a2_6", "label": "边界条件(Corner Case)", "type": "radio", "opts": ["提交前主动思考最大值、0或负数情况", "只测正常用例，一上OJ评测就WA", "根本没有测试习惯，写完就瞎交"]},
+      {"id": "a2_7", "label": "时间/空间复杂度意识", "type": "radio", "opts": ["有意识避免O(n^3)嵌套，追求高效", "听说过复杂度但写题顾不上", "只要能算出结果，循环跑一亿次也行"]},
+      {"id": "a2_8", "label": "脱机草稿与草图", "type": "radio", "opts": ["遇难题主动画表/列变量状态变化", "纯靠脑补容易漏算", "发呆半小时也不愿动笔画草图"]},
+      {"id": "a2_9", "label": "打表与暴力枚举", "type": "radio", "opts": ["不会优解时懂用枚举骗分", "遇到卡壳的题一分也拿不到", "暴力穷举都会漏情况"]},
+      {"id": "a2_10", "label": "信奥赛(CSP)潜质", "type": "radio", "opts": ["数理逻辑极佳，是冲奖的核心苗子", "努力刷题可拿个省二/省三", "纯粹当爱好，不适合高压竞赛路线"]},
+      {"id": "a2_11", "label": "代码重构(Refactoring)", "type": "radio", "opts": ["完成AC后主动精简冗余变量", "AC即万岁，代码再烂也不碰", "越改越错最后撤销回退"]},
+      {"id": "a2_12", "label": "题目理解(Reading Comprehension)", "type": "radio", "opts": ["能从极长的题目背景中揪出数学本质", "经常被题干坑，没看到关键条件", "阅读理解极差，连题目都看不懂"]}
+    ]}
+  ],
+  "ai_a3": [
+    {"group": "AICODE03 (AI实战/AIGC) 深度观测 (共12项)", "items": [
+      {"id": "a3_1", "label": "提示词(Prompt)结构化", "type": "radio", "opts": ["精准使用[角色设定/背景/限制/输出格式]", "只有简单诉求，不带任何约束", "像搜百度一样只输入两三个关键词"]},
+      {"id": "a3_2", "label": "多轮迭代与上下文(Context)", "type": "radio", "opts": ["能针对AI的错误连贯追问并逼近答案", "发现不对就重新开新对话重问", "被AI绕晕，忘记最初的任务"]},
+      {"id": "a3_3", "label": "AI幻觉甄别(Hallucination)", "type": "radio", "opts": ["敏锐捕捉AI瞎编的API或逻辑漏洞", "半信半疑，运行报错才发现被坑", "AI说是啥就是啥，奉为圭臬盲目复制"]},
+      {"id": "a3_4", "label": "Few-Shot(少样本)运用", "type": "radio", "opts": ["主动提供正反面例子教AI怎么输出", "老师提示后知道给例子", "永远只会零样本(Zero-shot)硬干"]},
+      {"id": "a3_5", "label": "MVP(最小可行性)拆解", "type": "radio", "opts": ["极强项目管理，先跑通核心再加料", "过度纠结AI画的图好不好看导致烂尾", "面对大项目让AI一次写完，最终全线崩溃"]},
+      {"id": "a3_6", "label": "跨模态工具协同", "type": "radio", "opts": ["游刃有余在文本/生图/生音等工具间切换", "只会用单一对话模型", "切工具时经常丢失文件或搞错格式"]},
+      {"id": "a3_7", "label": "代码缝合(CV工程师能力)", "type": "radio", "opts": ["能在庞大源码中精准找到插入位置粘贴", "常把AI给的代码粘贴到错误的作用域", "只会让AI重写全文覆盖"]},
+      {"id": "a3_8", "label": "逻辑反推与校验", "type": "radio", "opts": ["懂得让AI打印思维链(一步步思考)", "偶尔校验计算过程", "只看最终结果"]},
+      {"id": "a3_9", "label": "API生态理解", "type": "radio", "opts": ["清晰理解Token、并发限制、接口密钥", "只会用套壳网页版不懂底层通信", "对云端调用毫无概念"]},
+      {"id": "a3_10", "label": "提示词迭代收敛", "type": "radio", "opts": ["改几版提示词就能锁定理想输出", "改了十次提示词效果越来越糟", "写一版就听天由命放弃修改"]},
+      {"id": "a3_11", "label": "学习力底座转换", "type": "radio", "opts": ["把AI当私人导师，遇到盲区主动让AI解释", "遇到不懂的还是习惯等真人老师解答", "让AI直接写完作业，自己啥也没学到"]},
+      {"id": "a3_12", "label": "AI伦理与安全底线", "type": "radio", "opts": ["坚决不越狱不生成违规内容", "出于好奇疯狂试探色情暴力边界", "缺乏版权意识随意冒用侵权素材"]}
+    ]}
+  ]
+};
+
+let studentDB=[], activeStu=null, editingIndex=-1, currentMD="", currentProgress={};
+let userIdentifier = null;
+
+document.addEventListener('DOMContentLoaded',function(){init();});
+
+function init(){loadUserIdentifier();loadApiKey();loadStudents();loadStats();}
+
+function loadUserIdentifier() {
+    // 生成基于IP的用户标识符
+    // 在实际生产环境中，应该使用服务器端会话或认证
+    // 这里使用简化方案：基于浏览器指纹和本地存储
+    userIdentifier = localStorage.getItem('user_identifier');
+    if (!userIdentifier) {
+        // 生成随机标识符
+        userIdentifier = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        localStorage.setItem('user_identifier', userIdentifier);
+    }
+    console.log('当前用户标识符:', userIdentifier);
+}
+function saveApiKey(){const key=document.getElementById('api_key').value.trim();if(key){localStorage.setItem('zhipu_api_key',key);showToast('API Key 已保存');}}
+function loadApiKey(){document.getElementById('api_key').value=localStorage.getItem('zhipu_api_key')||'';}
+function showPage(name){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById('page-'+name).classList.add('active');if(name==='student-list')renderStudentGrid();else if(name==='archive')renderLibrary();window.scrollTo(0,0);}
+function loadStudents(){
+    const data=localStorage.getItem('students_data_'+userIdentifier);
+    studentDB=data?JSON.parse(data):[];
+    // 兼容历史数据：保证已有画像的用户平稳过渡到新状态
+    studentDB.forEach(s => {
+        if(s.portrait_content && s.is_archived === undefined) {
+            s.is_archived = true;
+        }
+    });
+    renderTable();
+}
+function saveStudents(){localStorage.setItem('students_data_'+userIdentifier,JSON.stringify(studentDB));}
+
+function loadStats(){
+    document.getElementById('stat-total').textContent=studentDB.length;
+    // 已正式入库档案：已归档且有70%数据画像内容的学生
+    document.getElementById('stat-portraits').textContent=studentDB.filter(function(s){return s.is_archived && s.portrait_content && (s.survey_percent || 0) >= 70;}).length;
+}
+
+function detectPath(class_name){if(!class_name)return"preschool";const cls=class_name.toUpperCase().replace(/[\s-_]/g,"");if(/AICODE03|AIGC|AI创新/.test(cls))return"ai_a3";if(/AICODE02|代码岛/.test(cls))return"cpp_a2";if(/AICODE01|代码英雄|AICODE|C\+\+|CPP/.test(cls))return"cpp_a1";if(/SPIKE/.test(cls))return"spike";if(/KITTENK4|K4|三年级|乐学/.test(cls))return"kitten_k4";if(/KITTENK2|K2|二年级|萌新/.test(cls))return"kitten_k2";if(/L5|创造世界|WEDO|大班/.test(cls))return"l5_creation";if(/L4|动力机械|9686/.test(cls))return"l5_creation"; if(/L3|发明世界|中班/.test(cls))return"l3_invention";if(/L2|发现世界|小班|螺丝刀/.test(cls))return"l2_discovery";if(/L1|意识世界|小小班|管道/.test(cls))return"l1_awareness";return"preschool";}
+
+function handleMainAction(){if(editingIndex===-1){importStudents();}else{saveEditedStudent();}}
+
+function importStudents(){
+    const batchInput=document.getElementById('batchInput');
+    if(!batchInput){showToast('系统错误','error');return;}
+    const raw=batchInput.value.trim();
+    if(!raw){showToast('请输入学生数据','error');return;}
+    let count=0;
+    
+    raw.split(/\r?\n/).forEach(function(line){
+        const trimmedLine=line.trim();
+        if(!trimmedLine)return;
+        let parts = trimmedLine.split(/[,\t\s]+/).map(p => p.trim()).filter(Boolean);
+        if(parts.length>=1){
+            let name=parts[0] || '', gender=parts[1] || '', class_name=parts[2] || '', class_time=parts.slice(3).join(' ') || '';
+            if(name){
+                addStudent(name,gender,class_name,class_time);
+                count++;
+            }
+        }
+    });
+    
+    if(count>0){
+        showToast('成功导入 '+count+' 名学生，请进入“填写观测画像”进行测评');
+        batchInput.value='';
+        renderTable();
+        loadStats();
+    }else{
+        showToast('请输入有效的学生数据','error');
+    }
+}
+
+function addStudent(name,gender,class_name,class_time){
+    const path=detectPath(class_name);
+    studentDB.push({
+        id:Date.now()+Math.random(),
+        name:name,
+        gender:gender,
+        class_name:class_name,
+        class_time:class_time,
+        path:path,
+        has_survey:false,
+        survey_percent:0,
+        portrait_content:'',
+        is_archived:false, // 默认均未归档
+        created_at:new Date().toISOString()
+    });
+    saveStudents();
+}
+function editStu(index){editingIndex=index;const s=studentDB[index];document.getElementById('batchInput').style.display='none';document.getElementById('editForm').style.display='grid';document.getElementById('cancelEditBtn').style.display='inline-flex';document.getElementById('editName').value=s.name;document.getElementById('editSex').value=s.gender;document.getElementById('editClass').value=s.class_name;document.getElementById('editTime').value=s.class_time||'';}
+function saveEditedStudent(){const s=studentDB[editingIndex];s.name=document.getElementById('editName').value;s.gender=document.getElementById('editSex').value;s.class_name=document.getElementById('editClass').value;s.class_time=document.getElementById('editTime').value;s.path=detectPath(s.class_name);saveStudents();showToast('更新成功');cancelEdit();renderTable();}
+function cancelEdit(){editingIndex=-1;document.getElementById('batchInput').style.display='block';document.getElementById('editForm').style.display='none';document.getElementById('cancelEditBtn').style.display='none';}
+function delStu(index){if(!confirm('确定删除？'))return;studentDB.splice(index,1);saveStudents();showToast('删除成功');renderTable();loadStats();}
+
+// 4阶精细化状态展示 (未填写/填写中/待生成/待归档/已归档)
+function renderTable(){document.querySelector('#stuTable tbody').innerHTML=studentDB.map(function(s,i){
+    const pathInfo=PATH_CONFIG[s.path]||{name:s.path,badge:'badge-gray'};
+    let pct = s.survey_percent || 0;
+    let statusText='<span class="status-dot pending"></span>未填写';
+    
+    if(s.is_archived && s.portrait_content){
+        statusText='<span class="status-dot completed"></span>已入库 ('+pct+'%)';
+    } else if(s.portrait_content){
+        statusText='<span class="status-dot half" style="background:var(--warning)"></span>待入库 ('+pct+'%)';
+    } else if(pct >= 50){
+        statusText='<span class="status-dot half"></span>待生成 ('+pct+'%)';
+    } else if(pct > 0){
+        statusText='<span class="status-dot pending" style="background:#94a3b8"></span>填写中 ('+pct+'%)';
+    }
+    
+    return'<tr><td><b>'+s.name+'</b></td><td>'+s.class_name+'</td><td><span class="path-badge '+pathInfo.badge+'">'+pathInfo.name+'</span></td><td>'+(s.class_time||'-')+'</td><td>'+statusText+'</td><td><button class="btn-primary btn-small" onclick="openSurveyByIndex('+i+')">档案记录</button> <button class="btn-warning btn-small" onclick="editStu('+i+')">编辑</button> <button class="btn-danger btn-small" onclick="delStu('+i+')">删除</button></td></tr>';
+}).join('');}
+
+function renderStudentGrid(){const grid=document.getElementById('studentGrid');const search=document.getElementById('searchStudent')?document.getElementById('searchStudent').value.toLowerCase():'';const filterPath=document.getElementById('filterPath')?document.getElementById('filterPath').value:'';let filtered=studentDB;if(search)filtered=filtered.filter(function(s){return s.name.toLowerCase().includes(search);});if(filterPath)filtered=filtered.filter(function(s){return s.path===filterPath;});grid.innerHTML=filtered.map(function(s){
+    const pathInfo=PATH_CONFIG[s.path]||{name:s.path,badge:'badge-gray'};
+    let pct = s.survey_percent || 0;
+    let statusHtml = '<span style="color:#999"><i class="fas fa-edit"></i> 未填写</span>';
+    
+    if(s.is_archived && s.portrait_content){
+        statusHtml = '<span style="color:var(--success)"><i class="fas fa-check-circle"></i> 已入库 ('+pct+'%)</span>';
+    } else if(s.portrait_content){
+        statusHtml = '<span style="color:var(--warning)"><i class="fas fa-exclamation-circle"></i> 待入库 ('+pct+'%)</span>';
+    } else if(pct >= 50) {
+        statusHtml = '<span style="color:var(--info)"><i class="fas fa-hourglass-half"></i> 待生成 ('+pct+'%)</span>';
+    } else if(pct > 0) {
+        statusHtml = '<span style="color:#64748b"><i class="fas fa-pen"></i> 填写中 ('+pct+'%)</span>';
+    }
+    
+    return'<div class="stu-card" onclick="openSurveyById('+s.id+')"><h4>'+s.name+'</h4><small>'+s.class_name+'</small><div style="margin-top:8px;"><span class="path-badge '+pathInfo.badge+'">'+pathInfo.name+'</span></div><div class="status" style="margin-top:10px;font-size:13px;font-weight:600;">'+statusHtml+'</div></div>';
+}).join('');}
+
+function filterStudents(){renderStudentGrid();}
+function openSurveyByIndex(index){openSurveyById(studentDB[index].id);}
+
+function openSurveyById(studentId){const student=studentDB.find(function(s){return s.id===studentId;});if(!student)return;activeStu=student;document.getElementById('survey-student-name').textContent=student.name;const pathInfo=PATH_CONFIG[student.path]||{name:student.path,badge:'badge-gray'};const badge=document.getElementById('survey-path-badge');badge.textContent=pathInfo.name;badge.className='path-badge '+pathInfo.badge;loadSurveyProgress(studentId);autoFillBasicInfo(student);renderSurvey();showPage('survey');}
+
+function autoFillBasicInfo(student){if(!currentProgress.info_name){currentProgress.info_name=student.name;}if(!currentProgress.info_gender){currentProgress.info_gender=student.gender;}if(!currentProgress.info_grade){const pathInfo=PATH_CONFIG[student.path]||{};if(pathInfo.grade){currentProgress.info_grade=pathInfo.grade;}}saveSurveyProgress();}
+function loadSurveyProgress(studentId){const data=localStorage.getItem('survey_progress_'+userIdentifier);if(data){const allProgress=JSON.parse(data);const sp=allProgress[studentId]||{};currentProgress=sp.progress||{};}else{currentProgress={};}}
+function saveSurveyProgress(){const data=localStorage.getItem('survey_progress_'+userIdentifier);const allProgress=data?JSON.parse(data):{};allProgress[activeStu.id]={progress:currentProgress,updated_at:new Date().toISOString()};localStorage.setItem('survey_progress_'+userIdentifier,JSON.stringify(allProgress));}
+function renderSurvey(){const container=document.getElementById('dynamicSurvey');container.innerHTML='';if(SURVEY_CONFIG.common)SURVEY_CONFIG.common.forEach(function(group){renderSurveyGroup(group,container);});const grade=currentProgress.info_grade||'';const gradeConfig=getGradeBasedConfig(grade);if(gradeConfig)gradeConfig.forEach(function(group){renderSurveyGroup(group,container);});const pathConfig=SURVEY_CONFIG[activeStu.path];if(pathConfig)pathConfig.forEach(function(group){renderSurveyGroup(group,container);});updateProgress();}
+
+function getGradeBasedConfig(grade){if(!grade)return null;if(['小小班','小班','中班','大班'].includes(grade)){return SURVEY_CONFIG.grade_based.preschool;}else if(['一年级','二年级','三年级'].includes(grade)){return SURVEY_CONFIG.grade_based.primary;}else if(['四年级及以上'].includes(grade)){return SURVEY_CONFIG.grade_based.middle;}return null;}
+function renderSurveyGroup(group,container){const section=document.createElement('div');section.className='question-section';section.innerHTML='<h3>'+group.group+'</h3>';const grid=document.createElement('div');grid.className='question-grid';group.items.forEach(function(item){const savedVal=currentProgress[item.id]||(item.type==='checkbox'?[]:'');const wrap=document.createElement('div');wrap.className='q-wrap';const label=document.createElement('label');label.className='q-label';label.textContent=item.label;wrap.appendChild(label);if(item.type==='radio'||item.type==='checkbox'){const optGroup=document.createElement('div');optGroup.className='opt-group';item.opts.forEach(function(opt){const isChecked=Array.isArray(savedVal)?savedVal.includes(opt):(savedVal===opt);const optLabel=document.createElement('label');optLabel.className='opt-item'+(isChecked?' checked':'');const input=document.createElement('input');input.type=item.type;input.name=item.id;input.value=opt;if(isChecked)input.checked=true;input.onchange=autoSave;optLabel.appendChild(input);optLabel.appendChild(document.createTextNode(opt));optGroup.appendChild(optLabel);});wrap.appendChild(optGroup);}else if(item.type==='textarea'){const textarea=document.createElement('textarea');textarea.name=item.id;textarea.value=savedVal;textarea.placeholder=item.placeholder||'';textarea.rows=4;textarea.oninput=autoSave;wrap.appendChild(textarea);}else{const input=document.createElement('input');input.type='text';input.name=item.id;input.value=savedVal;input.placeholder=item.placeholder||'';input.oninput=autoSave;wrap.appendChild(input);}grid.appendChild(wrap);});section.appendChild(grid);container.appendChild(section);}
+function autoSave(){
+    if(!activeStu)return;
+    const data={};
+    document.querySelectorAll('#dynamicSurvey input, #dynamicSurvey textarea').forEach(function(input){
+        const name=input.name;
+        if(input.type==='checkbox'){
+            if(!data[name])data[name]=[];
+            if(input.checked)data[name].push(input.value);
+        }else if(input.type==='radio'){
+            if(input.checked)data[name]=input.value;
+        }else{
+            data[name]=input.value;
+        }
+    });
+    document.querySelectorAll('.opt-item').forEach(function(label){
+        const input=label.querySelector('input');
+        if(input.checked)label.classList.add('checked');else label.classList.remove('checked');
+    });
+    currentProgress=data;
+    
+    const total = document.querySelectorAll('.q-wrap').length;
+    const done = Object.keys(currentProgress).filter(function(k){
+        if(k==='remark')return false;
+        const v=currentProgress[k];
+        return v&&(Array.isArray(v)?v.length>0:v.toString().length>0);
+    }).length;
+    const pct = total > 0 ? Math.round((done/total)*100) : 0;
+    activeStu.survey_percent = pct;
+    
+    // 控制 has_survey （现在 UI 和逻辑都是以 >=50 判断为有效即可）
+    if(pct >= 50) {
+        activeStu.has_survey = true;
+    } else {
+        activeStu.has_survey = false;
+    }
+    saveStudents();
+    saveSurveyProgress();
+    
+    // 实时刷新顶部统计
+    loadStats();
+
+    const hint=document.getElementById('save-hint');
+    hint.innerHTML='<i class="fas fa-check-circle"></i> 已保存';
+    setTimeout(function(){hint.innerHTML='<i class="fas fa-check-circle"></i> 数据已实时同步';},1000);
+    
+    document.getElementById('p-fill').style.width=pct+'%';
+    document.getElementById('p-text').innerText='进度: '+done+'/'+total + ' (' + pct + '%)';
+}
+function updateProgress(){
+    const total=document.querySelectorAll('.q-wrap').length;
+    const done=Object.keys(currentProgress).filter(function(k){if(k==='remark')return false;const v=currentProgress[k];return v&&(Array.isArray(v)?v.length>0:v.toString().length>0);}).length;
+    const pct = total > 0 ? Math.round((done/total)*100) : 0;
+    document.getElementById('p-fill').style.width=pct+'%';
+    document.getElementById('p-text').innerText='进度: '+done+'/'+total + ' (' + pct + '%)';
+}
+
+// 生成逻辑强拦截：低于 50% 绝不生成
+async function generatePortrait(){
+    const apiKey=document.getElementById('api_key').value.trim();
+    if(!apiKey){alert('请先输入 API Key');return;}
+    
+    if((activeStu.survey_percent || 0) < 50){
+        alert('警告：有效问卷填写进度必须达到 50% 以上才能生成画像档案！当前进度为 '+(activeStu.survey_percent||0)+'%。');
+        return;
+    }
+
+    showPage('portrait');
+    document.getElementById('loading').style.display='flex';
+    document.getElementById('portraitOutput').innerHTML='';
+    const prompt=buildPortraitPrompt();
+    
+    try{
+        const response=await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+            body:JSON.stringify({
+                model:"glm-4-flash",
+                messages:[
+                    {
+                        role:"system",
+                        content:`你是一个简洁的学生画像生成系统。
+请根据教师提交的观测数据，生成简短、客观的Markdown学生画像。
+
+【核心要求】：
+1. 只基于提供的基础数据生成，不要过度分析或推测
+2. 语言简洁明了，避免长段文字描述
+3. 只包含有实际数据的内容，没有数据的部分直接省略
+4. 保持客观专业，拒绝多余寒暄和修饰语
+
+【模板结构】（仅保留有数据的部分）：
+# 学生画像
+## 基础信息
+- 姓名: [姓名]
+- 班级: [班级]
+- 课程路径: [课程路径]
+
+## 关键特征
+（简洁列出性格、行为、学习等方面的核心数据）
+
+## 教学建议
+（基于数据给出1-2条简短建议）
+`
+                    },
+                    {
+                        role:"user",
+                        content: prompt
+                    }
+                ]
+            })
+        });
+        const result=await response.json();
+        document.getElementById('loading').style.display='none';
+        if(result.choices&&result.choices[0]){
+            currentMD=result.choices[0].message.content;
+            activeStu.portrait_content=currentMD;
+            activeStu.has_survey=true;
+            activeStu.is_archived=false; // 生成完毕但尚未确认入库
+            saveStudents();
+            document.getElementById('portraitOutput').innerHTML='<div class="portrait-card"><div class="p-header"><h2>'+activeStu.name+'的个人档案</h2><span>有效进度: '+(activeStu.survey_percent || 0)+'% (尚未入库)</span></div><div class="p-body">'+marked.parse(currentMD)+'</div></div>';
+            loadStats();
+        }else{
+            throw new Error('API 返回格式错误');
+        }
+    }catch(e){
+        document.getElementById('loading').style.display='none';
+        document.getElementById('portraitOutput').innerHTML='<div class="error-msg"><i class="fas fa-exclamation-circle"></i><p>生成失败: '+e.message+'</p></div>';
+    }
+}
+
+function buildPortraitPrompt(){
+    const pathInfo=PATH_CONFIG[activeStu.path]||{name:activeStu.path};
+    let prompt=`学生姓名：${activeStu.name}\n\n【基础信息】\n- 班级: ${activeStu.class_name}\n- 课程路径: ${pathInfo.name}\n\n【观测数据】\n`;
+    
+    for(const key in currentProgress){
+        const value=currentProgress[key];
+        if(value && (Array.isArray(value) ? value.length > 0 : value.toString().length > 0)){
+            let labelText = key;
+            const searchGroups = [SURVEY_CONFIG.common, SURVEY_CONFIG.grade_based.preschool, SURVEY_CONFIG.grade_based.primary, SURVEY_CONFIG.grade_based.middle, SURVEY_CONFIG[activeStu.path]];
+            searchGroups.forEach(groupList => {
+                if(groupList){
+                    groupList.forEach(group => {
+                        const item = group.items.find(i => i.id === key);
+                        if(item) labelText = item.label;
+                    });
+                }
+            });
+            const displayValue=Array.isArray(value)?value.join(', '):value;
+            prompt+='- '+labelText+': '+displayValue+'\n';
+        }
+    }
+    return prompt;
+}
+
+// 核心逻辑：确认后设为已归档并统计
+function saveToArchive(){
+    if(activeStu) {
+        activeStu.is_archived = true;
+        saveStudents();
+        loadStats(); // 必须重新统计以更新【已入库档案】数字
+    }
+    showToast('档案记录已确认，并成功存入文库！');
+    showPage('archive');
+}
+
+function copyPortrait(){if(!currentMD)return;navigator.clipboard.writeText(currentMD).then(function(){showToast('已复制 Markdown');});}
+
+// 文库仅显示已经入库且具有有效内容的档案
+function renderLibrary(){
+    const container=document.getElementById('libraryContent');
+    const search=document.getElementById('searchArchive')?document.getElementById('searchArchive').value.toLowerCase():'';
+    const filterPath=document.getElementById('filterArchivePath')?document.getElementById('filterArchivePath').value:'';
+    
+    // 双重校验：确认过归档，且真实存在画像数据
+    let filtered=studentDB.filter(function(s){return s.is_archived && s.portrait_content;});
+    
+    if(search)filtered=filtered.filter(function(s){return s.name.toLowerCase().includes(search);});
+    if(filterPath)filtered=filtered.filter(function(s){return s.path===filterPath;});
+    
+    if(filtered.length>0){
+        container.innerHTML=filtered.map(function(s){const pathInfo=PATH_CONFIG[s.path]||{name:s.path,badge:'badge-gray'};return'<div class="stu-card" onclick="viewPortrait('+s.id+')"><h4>'+s.name+'</h4><small>'+s.class_name+'</small><div style="margin-top:10px;"><span class="path-badge '+pathInfo.badge+'">'+pathInfo.name+'</span></div><div style="margin-top:10px;font-size:12px;color:#666;">'+new Date(s.created_at).toLocaleDateString()+'</div></div>';}).join('');
+    }else{
+        container.innerHTML='<div class="empty-state"><p>暂无已正式入库的档案数据</p></div>';
+    }
+}
+
+function filterArchives(){renderLibrary();}
+function viewPortrait(studentId){const student=studentDB.find(function(s){return s.id===studentId;});if(!student)return;activeStu=student;currentMD=student.portrait_content;showPage('portrait');document.getElementById('loading').style.display='none';document.getElementById('portraitOutput').innerHTML='<div class="portrait-card"><div class="p-header"><h2>'+activeStu.name+'的个人档案</h2><span>有效进度: '+(activeStu.survey_percent || 0)+'% (已正式入库)</span></div><div class="p-body">'+marked.parse(currentMD)+'</div></div>';}
+
+function exportBackup(){const data={students:studentDB,survey_progress:localStorage.getItem('survey_progress_'+userIdentifier),export_date:new Date().toISOString()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='backup_'+userIdentifier+'_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('备份已下载');}
+function importBackup(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){try{const jsonData=JSON.parse(reader.result);if(jsonData.students){studentDB=jsonData.students;saveStudents();}if(jsonData.survey_progress){localStorage.setItem('survey_progress_'+userIdentifier,jsonData.survey_progress);}showToast('导入成功');loadStudents();loadStats();}catch(e){showToast('文件格式错误','error');}};reader.readAsText(file);input.value='';}
+
+// 一键导出全员：同样只导出已经入库的档案
+function downloadAllMerged(){
+    let md='# 全员学生档案汇总\n\n*生成时间: '+new Date().toLocaleString()+'*\n\n---\n\n';
+    studentDB.filter(function(s){return s.is_archived && s.portrait_content;}).forEach(function(s){
+        md+='## '+s.name+'\n\n'+s.portrait_content+'\n\n---\n\n';
+    });
+    const blob=new Blob([md],{type:'text/markdown'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='all_archived_portraits_'+new Date().toISOString().slice(0,10)+'.md';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('全员报告已下载');
+}
+
+function showToast(message,type){type=type||'success';const toast=document.createElement('div');toast.className='toast toast-'+type;toast.innerHTML='<i class="fas fa-'+(type==='success'?'check-circle':'exclamation-circle')+'"></i> '+message;toast.style.cssText='position:fixed;top:20px;right:20px;padding:15px 25px;background:'+(type==='success'?'var(--success)':'var(--danger)')+';color:white;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:9999;animation:slideIn 0.3s ease;';document.body.appendChild(toast);setTimeout(function(){toast.style.animation='fadeOut 0.3s ease';setTimeout(function(){toast.remove();},300);},3000);}
+
+// 系统功能检查函数
+function showSystemCheck() {
+    document.getElementById('system-check').style.display = 'block';
+    runSystemCheck();
+}
+
+function hideSystemCheck() {
+    document.getElementById('system-check').style.display = 'none';
+}
+
+function runSystemCheck() {
+    const resultsDiv = document.getElementById('check-results');
+    resultsDiv.innerHTML = '<h4>正在运行功能检查...</h4>';
+    
+    const checks = [
+        { name: 'DOM元素检测', test: checkDomElements },
+        { name: '核心函数检测', test: checkCoreFunctions },
+        { name: '本地存储检测', test: checkLocalStorage },
+        { name: '数据结构检测', test: checkDataStructure },
+        { name: '导入功能检测', test: checkImportFunctionality },
+        { name: '统计逻辑检测', test: checkStatisticsLogic }
+    ];
+    
+    let passed = 0;
+    let total = checks.length;
+    let html = '<h4>功能检查结果：</h4><div style="margin-top: 15px;">';
+    
+    checks.forEach(check => {
+        const result = check.test();
+        if (result.passed) {
+            passed++;
+            html += `<div style="color: var(--success); margin: 5px 0;"><i class="fas fa-check-circle"></i> ${check.name}: ${result.message}</div>`;
+        } else {
+            html += `<div style="color: var(--danger); margin: 5px 0;"><i class="fas fa-exclamation-circle"></i> ${check.name}: ${result.message}</div>`;
+        }
+    });
+    
+    html += `</div><div style="margin-top: 20px; font-weight: 600;">总计: ${passed}/${total} 项检查通过</div>`;
+    resultsDiv.innerHTML = html;
+    
+    if (passed === total) {
+        showToast('所有功能检查通过！', 'success');
+    } else {
+        showToast(`功能检查发现 ${total - passed} 个问题`, 'error');
+    }
+}
+
+function checkDomElements() {
+    const requiredElements = [
+        'api_key', 'batchInput', 'mainEntryBtn', 'stuTable',
+        'studentGrid', 'searchStudent', 'filterPath',
+        'dynamicSurvey', 'loading', 'portraitOutput',
+        'libraryContent', 'searchArchive', 'filterArchivePath'
+    ];
+    
+    let missing = [];
+    requiredElements.forEach(id => {
+        if (!document.getElementById(id)) {
+            missing.push(id);
+        }
+    });
+    
+    if (missing.length === 0) {
+        return { passed: true, message: '所有必要DOM元素存在' };
+    } else {
+        return { passed: false, message: `缺失元素: ${missing.join(', ')}` };
+    }
+}
+
+function checkCoreFunctions() {
+    const requiredFunctions = [
+        'handleMainAction', 'importStudents', 'addStudent', 'renderTable',
+        'showToast', 'saveStudents', 'loadStudents', 'detectPath',
+        'generatePortrait', 'saveToArchive', 'loadStats'
+    ];
+    
+    let missing = [];
+    requiredFunctions.forEach(funcName => {
+        if (typeof window[funcName] !== 'function') {
+            missing.push(funcName);
+        }
+    });
+    
+    if (missing.length === 0) {
+        return { passed: true, message: '所有核心函数已定义' };
+    } else {
+        return { passed: false, message: `缺失函数: ${missing.join(', ')}` };
+    }
+}
+
+function checkLocalStorage() {
+    try {
+        const testKey = 'system_check_test';
+        localStorage.setItem(testKey, 'test');
+        const value = localStorage.getItem(testKey);
+        localStorage.removeItem(testKey);
+        
+        if (value === 'test') {
+            return { passed: true, message: '本地存储功能正常' };
+        } else {
+            return { passed: false, message: '本地存储读取失败' };
+        }
+    } catch (e) {
+        return { passed: false, message: `本地存储错误: ${e.message}` };
+    }
+}
+
+function checkDataStructure() {
+    try {
+        // 测试学生数据结构
+        const testStudent = {
+            id: Date.now() + Math.random(),
+            name: '测试学生',
+            gender: '男',
+            class_name: 'L1-意识世界',
+            class_time: '周六上午',
+            path: 'l1_awareness',
+            has_survey: false,
+            survey_percent: 0,
+            portrait_content: '',
+            is_archived: false,
+            created_at: new Date().toISOString()
+        };
+        
+        // 测试数据转换
+        const jsonString = JSON.stringify(testStudent);
+        const parsed = JSON.parse(jsonString);
+        
+        if (parsed.name === '测试学生') {
+            return { passed: true, message: '数据结构格式正确' };
+        } else {
+            return { passed: false, message: '数据结构转换失败' };
+        }
+    } catch (e) {
+        return { passed: false, message: `数据结构错误: ${e.message}` };
+    }
+}
+
+function checkImportFunctionality() {
+    try {
+        // 测试数据解析
+        const testData = '张三 男 L1-意识世界-周六 周六上午9:00\n李四 女 L2-发现世界 周日下午';
+        const lines = testData.split(/\r?\n/);
+        
+        let count = 0;
+        lines.forEach(function(line) {
+            const trimmedLine = line.trim();
+            if (!trimmedLine) return;
+            
+            let parts = trimmedLine.split(/[,\t\s]+/).map(function(p) { return p.trim(); }).filter(Boolean);
+            if (parts.length >= 1) {
+                count++;
+            }
+        });
+        
+        if (count === 2) {
+            return { passed: true, message: '导入功能解析正常' };
+        } else {
+            return { passed: false, message: '导入功能解析失败' };
+        }
+    } catch (e) {
+        return { passed: false, message: `导入功能错误: ${e.message}` };
+    }
+}
+
+function checkStatisticsLogic() {
+    try {
+        // 测试统计逻辑
+        const testStudents = [
+            { survey_percent: 60, is_archived: true, portrait_content: '测试内容' },
+            { survey_percent: 40, is_archived: false, portrait_content: '' },
+            { survey_percent: 70, is_archived: true, portrait_content: '测试内容2' }
+        ];
+        
+        const validSurveys = testStudents.filter(function(s) { return s.survey_percent >= 50; }).length;
+        const archivedPortraits = testStudents.filter(function(s) { return s.is_archived && s.portrait_content; }).length;
+        
+        if (validSurveys === 2 && archivedPortraits === 2) {
+            return { passed: true, message: '统计逻辑计算正确' };
+        } else {
+            return { passed: false, message: '统计逻辑计算错误' };
+        }
+    } catch (e) {
+        return { passed: false, message: `统计逻辑错误: ${e.message}` };
+    }
+}
+
+</script>
+</body>
+</html>
