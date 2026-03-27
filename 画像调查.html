@@ -299,16 +299,17 @@ const SURVEY_CONFIG = {
       ]}
     ],
     "middle": [
-      {"group": "高年级基础评估 (共6项)", "items": [
-        {"id": "g_m_mouse", "label": "鼠标操作熟练度", "type": "radio", "opts": ["操作非常熟练", "基本可以完成操作", "动作生疏"]},
-        {"id": "g_m_keyboard", "label": "键盘打字熟练度", "type": "radio", "opts": ["熟悉键位/偶尔盲打", "需低头找键/速度一般", "指法错误/速度极慢"]},
-        {"id": "g_m_eng", "label": "英语基础(代码适应)", "type": "radio", "opts": ["词汇量大/不惧满屏英文", "能记住常见的代码单词", "非常抗拒英文单词"]},
-        {"id": "g_m_abstract", "label": "抽象思维转换", "type": "radio", "opts": ["能将现实问题快速变模型", "引导下可完成", "只能具象思考套公式", "无法理解抽象题意"]},
-        {"id": "g_m_self_learn", "label": "自主探索意愿", "type": "radio", "opts": ["遇到盲区主动试错探索", "等老师给最终答案", "只做被要求的最低限度任务"]},
-        {"id": "g_m_search", "label": "搜商与查错工具", "type": "radio", "opts": ["能熟练用搜索引擎查报错", "偶尔会去查", "完全不会/只依赖真人老师"]}
-      ]}
-    ]
-  },
+    {"group": "高年级基础评估 (共8项)", "items": [
+      {"id": "g_m_mouse", "label": "鼠标操作熟练度", "type": "radio", "opts": ["操作非常熟练", "基本可以完成操作", "动作生疏"]},
+      {"id": "g_m_keyboard", "label": "键盘打字熟练度", "type": "radio", "opts": ["熟悉键位/偶尔盲打", "需低头找键/速度一般", "指法错误/速度极慢"]},
+      {"id": "g_m_eng", "label": "英语基础(代码适应)", "type": "radio", "opts": ["词汇量大/不惧满屏英文", "能记住常见的代码单词", "非常抗拒英文单词"]},
+      {"id": "g_m_abstract", "label": "抽象思维转换", "type": "radio", "opts": ["能将现实问题快速变模型", "引导下可完成", "只能具象思考套公式", "无法理解抽象题意"]},
+      {"id": "g_m_self_learn", "label": "自主探索意愿", "type": "radio", "opts": ["遇到盲区主动试错探索", "等老师给最终答案", "只做被要求的最低限度任务"]},
+      {"id": "g_m_search", "label": "搜商与查错工具", "type": "radio", "opts": ["能熟练用搜索引擎查报错", "偶尔会去查", "完全不会/只依赖真人老师"]},
+      {"id": "g_m_read", "label": "文字阅读理解", "type": "radio", "opts": ["能独立阅读题目规则", "需拼音辅助", "需老师读题拆解", "抵触文字较多的内容"]},
+      {"id": "g_m_screen", "label": "屏幕时间习惯", "type": "radio", "opts": ["仅关注课程软件", "偶尔想切去玩游戏", "极易被电脑其他诱惑吸引"]}
+    ]}
+  ]
 
   "l1_awareness": [
     {"group": "L1 意识世界深度观测 (共12项)", "items": [
@@ -617,10 +618,20 @@ function saveSurveyProgress(){const data=localStorage.getItem('survey_progress_'
 function renderSurvey(){const container=document.getElementById('dynamicSurvey');container.innerHTML='';if(SURVEY_CONFIG.common)SURVEY_CONFIG.common.forEach(function(group){renderSurveyGroup(group,container);});const grade=currentProgress.info_grade||'';const gradeConfig=getGradeBasedConfig(grade);if(gradeConfig)gradeConfig.forEach(function(group){renderSurveyGroup(group,container);});const pathConfig=SURVEY_CONFIG[activeStu.path];if(pathConfig)pathConfig.forEach(function(group){renderSurveyGroup(group,container);});updateProgress();}
 
 function getGradeBasedConfig(grade){if(!grade)return null;if(['小小班','小班','中班','大班'].includes(grade)){return SURVEY_CONFIG.grade_based.preschool;}else if(['一年级','二年级','三年级'].includes(grade)){return SURVEY_CONFIG.grade_based.primary;}else if(['四年级及以上'].includes(grade)){return SURVEY_CONFIG.grade_based.middle;}return null;}
-function renderSurveyGroup(group,container){const section=document.createElement('div');section.className='question-section';section.innerHTML='<h3>'+group.group+'</h3>';const grid=document.createElement('div');grid.className='question-grid';group.items.forEach(function(item){const savedVal=currentProgress[item.id]||(item.type==='checkbox'?[]:'');const wrap=document.createElement('div');wrap.className='q-wrap';const label=document.createElement('label');label.className='q-label';label.textContent=item.label;wrap.appendChild(label);if(item.type==='radio'||item.type==='checkbox'){const optGroup=document.createElement('div');optGroup.className='opt-group';item.opts.forEach(function(opt){const isChecked=Array.isArray(savedVal)?savedVal.includes(opt):(savedVal===opt);const optLabel=document.createElement('label');optLabel.className='opt-item'+(isChecked?' checked':'');const input=document.createElement('input');input.type=item.type;input.name=item.id;input.value=opt;if(isChecked)input.checked=true;input.onchange=autoSave;optLabel.appendChild(input);optLabel.appendChild(document.createTextNode(opt));optGroup.appendChild(optLabel);});wrap.appendChild(optGroup);}else if(item.type==='textarea'){const textarea=document.createElement('textarea');textarea.name=item.id;textarea.value=savedVal;textarea.placeholder=item.placeholder||'';textarea.rows=4;textarea.oninput=autoSave;wrap.appendChild(textarea);}else{const input=document.createElement('input');input.type='text';input.name=item.id;input.value=savedVal;input.placeholder=item.placeholder||'';input.oninput=autoSave;wrap.appendChild(input);}grid.appendChild(wrap);});section.appendChild(grid);container.appendChild(section);}
+function renderSurveyGroup(group,container){const section=document.createElement('div');section.className='question-section';section.innerHTML='<h3>'+group.group+'</h3>';const grid=document.createElement('div');grid.className='question-grid';group.items.forEach(function(item){const savedVal=currentProgress[item.id]||(item.type==='checkbox'?[]:'');const wrap=document.createElement('div');wrap.className='q-wrap';const label=document.createElement('label');label.className='q-label';label.textContent=item.label;wrap.appendChild(label);if(item.type==='radio'||item.type==='checkbox'){const optGroup=document.createElement('div');optGroup.className='opt-group';item.opts.forEach(function(opt){const isChecked=Array.isArray(savedVal)?savedVal.includes(opt):(savedVal===opt);const optLabel=document.createElement('label');optLabel.className='opt-item'+(isChecked?' checked':'');const input=document.createElement('input');input.type=item.type;input.name=item.id;input.value=opt;if(isChecked)input.checked=true;input.onchange=autoSave;if(item.type==='radio'){optLabel.addEventListener('click',function(e){if(input.checked){// 取消选中e.preventDefault();input.checked=false;autoSave();}});}optLabel.appendChild(input);optLabel.appendChild(document.createTextNode(opt));optGroup.appendChild(optLabel);});wrap.appendChild(optGroup);}else if(item.type==='textarea'){const textarea=document.createElement('textarea');textarea.name=item.id;textarea.value=savedVal;textarea.placeholder=item.placeholder||'';textarea.rows=4;textarea.oninput=autoSave;wrap.appendChild(textarea);}else{const input=document.createElement('input');input.type='text';input.name=item.id;input.value=savedVal;input.placeholder=item.placeholder||'';input.oninput=autoSave;wrap.appendChild(input);}grid.appendChild(wrap);});section.appendChild(grid);container.appendChild(section);}
 function autoSave(){
     if(!activeStu)return;
     const data={};
+    // 先收集所有radio组
+    const radioGroups = {};
+    document.querySelectorAll('#dynamicSurvey input[type="radio"]').forEach(function(input){
+        const name = input.name;
+        if(!radioGroups[name]){
+            radioGroups[name] = [];
+        }
+        radioGroups[name].push(input);
+    });
+    
     document.querySelectorAll('#dynamicSurvey input, #dynamicSurvey textarea').forEach(function(input){
         const name=input.name;
         if(input.type==='checkbox'){
@@ -632,6 +643,14 @@ function autoSave(){
             data[name]=input.value;
         }
     });
+    
+    // 处理radio组：如果没有选中的选项，确保字段存在但值为空
+    for(const groupName in radioGroups){
+        const hasChecked = radioGroups[groupName].some(input => input.checked);
+        if(!hasChecked){
+            data[groupName] = '';
+        }
+    }
     document.querySelectorAll('.opt-item').forEach(function(label){
         const input=label.querySelector('input');
         if(input.checked)label.classList.add('checked');else label.classList.remove('checked');
